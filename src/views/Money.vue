@@ -3,7 +3,6 @@
     <Layout>
       <p>money</p>
     </Layout>
-    <Nav />
   </div>
 </template>
 

@@ -3,8 +3,6 @@
     <Layout>
       <p>Labels</p>
     </Layout>
-
-    <Nav />
   </div>
 </template>
 
