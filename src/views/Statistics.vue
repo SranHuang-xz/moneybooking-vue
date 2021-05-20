@@ -1,5 +1,8 @@
 <template>
-  <div>Statistics</div>
+  <div>
+    <div>Statistics</div>
+    <Nav />
+  </div>
 </template>
 
 <script>
