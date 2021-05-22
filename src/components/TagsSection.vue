@@ -12,10 +12,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "TagsSection",
-};
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+@Component
+export default class TagsSection extends Vue {
+  tag = ["衣", "食"];
+}
 </script>
 
 <style lang="scss" scoped>
