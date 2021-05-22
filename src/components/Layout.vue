@@ -1,26 +1,31 @@
 <template>
-  <div class="wrapper">
-    <div class="content"><slot></slot></div>
+  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <!-- :class="classPrefix && `${classPrefix}-wrapper` -->
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
+      <slot></slot>
+    </div>
     <Nav />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Money",
+  props: ["classPrefix"],
+  name: "Layout",
 };
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
+.layout-wrapper {
   display: flex;
-  border: 1px red solid;
+  /* border: 1px red solid; */
   flex-direction: column;
   height: 100vh;
 }
 .content {
   flex-grow: 1;
   overflow: auto;
-  border: 1px green solid;
+  /* justify-content: end; */
+  /* border: 1px green solid; */
 }
 </style>
