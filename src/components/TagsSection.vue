@@ -1,10 +1,14 @@
 <template>
   <div class="tag">
     <ol class="current">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <li
+        v-for="tag in tags"
+        :key="tag"
+        :class="{ selected: selectedTag === tag }"
+        @click="selecte(tag)"
+      >
+        {{ tag }}
+      </li>
     </ol>
     <div class="new">
       <button>新增标签</button>
@@ -14,10 +18,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class TagsSection extends Vue {
-  tag = ["衣", "食"];
+  @Prop(Array) tags: string[] | undefined;
+  selectedTag = "";
+  selecte(tag: string) {
+    this.selectedTag = tag;
+  }
 }
 </script>
 

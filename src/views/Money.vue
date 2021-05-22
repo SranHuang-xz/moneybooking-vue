@@ -3,7 +3,7 @@
   <Layout class-prefix="money">
     <NumberSection />
     <NoteSection />
-    <TagsSection />
+    <TagsSection :tags="taglist" />
     <CategorySection />
   </Layout>
   <!-- </div> -->
@@ -23,6 +23,11 @@ export default {
     NumberSection,
   },
   name: "Money",
+  data() {
+    return {
+      taglist: ["衣", "食", "住", "行"],
+    };
+  },
 };
 </script>
 
