@@ -7,20 +7,19 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "CategorySection",
-  data() {
-    return {
-      type: "-",
-    };
-  },
-  methods: {
-    selectType(type) {
-      this.type = type;
-    },
-  },
-};
+<script lang='ts'>
+import { Component } from "vue-property-decorator";
+import Vue from "vue";
+@Component
+export default class category extends Vue {
+  type = "-";
+  selectType(type: string) {
+    if (type !== "-" && type !== "+") {
+      throw "unknown type";
+    }
+    this.type = type;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
