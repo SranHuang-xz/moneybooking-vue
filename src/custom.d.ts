@@ -1,7 +1,9 @@
-// type RecordItem = {
-//     tag: string;
-//     note: string;
-//     type: "+" | "-";
-//     amount: number;
-//     createAt?: Date;
-// };
+type RecordItem = {
+    tag: string;
+    note: string;
+    type: "+" | "-";
+    amount: number;
+    createAt?: Date;
+};
+
+export default RecordItem

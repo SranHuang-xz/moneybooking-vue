@@ -14,10 +14,12 @@ import NoteSection from "@/components/NoteSection.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
-import model from "@/model";
+import model from "@/models/recordListModel";
+import tagListModel from "@/models/tagListModel";
 const recordList = model.fetch();
+const tagList = tagListModel.fetch();
 import { Component, Watch } from "vue-property-decorator";
-// import "@/custom";
+import RecordItem from "@/custom";
 
 @Component({
   components: {
@@ -28,7 +30,7 @@ import { Component, Watch } from "vue-property-decorator";
   },
 })
 export default class Money extends Vue {
-  taglist = ["衣", "食", "住", "行"];
+  taglist = tagList;
   // recordList: Record[] = JSON.parse(
   //   window.localStorage.getItem("recordList") || "[]"
   // );
