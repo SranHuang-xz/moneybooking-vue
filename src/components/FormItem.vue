@@ -11,7 +11,7 @@
 import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
-export default class NoteSection extends Vue {
+export default class FormItem extends Vue {
   @Prop({ required: true }) filedName!: string;
   @Prop() placeholder?: string;
   value = "";
@@ -37,7 +37,7 @@ export default class NoteSection extends Vue {
     > input {
       display: block;
       width: 100%;
-      height: 64px;
+      height: 48px;
       background: none;
       border: none;
     }

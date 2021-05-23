@@ -2,10 +2,11 @@
   <Layout class-prefix="money">
     {{ record }}
     <NumberSection @update:amount="updateAmount" />
-    <NoteSection
+    <FormItem
       filedName="备注"
       placeholder="写点什么吧"
       @update:note="updateNote"
+      class="note"
     />
     <TagsSection :tags.sync="taglist" @update:selected="updateTag" />
     <CategorySection @update:type="updateType" />
@@ -14,7 +15,7 @@
 
 <script lang='ts'>
 import TagsSection from "@/components/TagsSection.vue";
-import NoteSection from "@/components/NoteSection.vue";
+import FormItem from "@/components/FormItem.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
@@ -28,7 +29,7 @@ import RecordItem from "@/custom";
 @Component({
   components: {
     TagsSection,
-    NoteSection,
+    FormItem,
     CategorySection,
     NumberSection,
   },
@@ -70,5 +71,8 @@ export default class Money extends Vue {
 .money-content {
   display: flex;
   flex-direction: column-reverse;
+}
+.note {
+  margin: 8px 0;
 }
 </style>
