@@ -9,10 +9,14 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 @Component
 export default class NoteSection extends Vue {
   value = "";
+  @Watch("value")
+  onChange(note: string) {
+    this.$emit("update:note", note);
+  }
 }
 </script>
 

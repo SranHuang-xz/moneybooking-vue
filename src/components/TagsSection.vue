@@ -11,7 +11,7 @@
       </li>
     </ol>
     <div class="new">
-      <button>新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
   </div>
 </template>
@@ -25,6 +25,15 @@ export default class TagsSection extends Vue {
   selectedTag = "";
   selecte(tag: string) {
     this.selectedTag = tag;
+    this.$emit("update:selected", this.selectedTag);
+  }
+  create() {
+    const tag = window.prompt("请输入标签名");
+    if (tag === "") {
+      alert("标签名不能为空");
+    } else if (this.tags !== undefined) {
+      this.$emit("update:tags", [...this.tags, tag]);
+    }
   }
 }
 </script>

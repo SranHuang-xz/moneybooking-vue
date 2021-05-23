@@ -8,7 +8,7 @@
 </template>
 
 <script lang='ts'>
-import { Component } from "vue-property-decorator";
+import { Component, Watch, Prop } from "vue-property-decorator";
 import Vue from "vue";
 @Component
 export default class category extends Vue {
@@ -18,6 +18,10 @@ export default class category extends Vue {
       throw "unknown type";
     }
     this.type = type;
+  }
+  @Watch("type")
+  onChangeType(type: string) {
+    this.$emit("update:type", type);
   }
 }
 </script>
