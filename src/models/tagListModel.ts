@@ -1,4 +1,5 @@
 import RecordItem from "@/custom";
+import { createID } from "@/lib/createID";
 type tag = {
     id: string
     name: string
@@ -24,18 +25,18 @@ const tagListModel: TagListModel = {
 
     },
     create(name: string) {
+
         const names = this.data.map(tag => tag.name)
         if (names.indexOf(name) >= 0) {
             return false
         }
-        this.data.push({ id: name, name: name })
+        const id = createID().toString()
+        this.data.push({ id, name })
         this.save()
         return true
     },
     update(id: string, name: string) {
         const idList = this.data.map(tag => tag.id)
-        console.log("ddd");
-
         if (idList.indexOf(id) >= 0) {
             const names = this.data.map(tag => tag.name)
             if (names.indexOf(name) >= 0) {
@@ -64,7 +65,7 @@ const tagListModel: TagListModel = {
             }
 
         }
-        this.data.slice(index, 1)
+        this.data.splice(index, 1)
         this.save()
         return true
     }

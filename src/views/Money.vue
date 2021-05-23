@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="money">
     {{ record }}
-    <NumberSection @update:amount="updateAmount" />
+    <NumberSection :value.sync="record.amount" @submit="saveRecord" />
     <FormItem
       fieldName="备注"
       placeholder="写点什么吧"
@@ -19,12 +19,13 @@ import FormItem from "@/components/FormItem.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
-import model from "@/models/recordListModel";
+// import model from "@/models/recordListModel";
 import tagListModel from "@/models/tagListModel";
-const recordList = model.fetch();
+const recordList = recordListModel.fetch();
 const tagList = tagListModel.fetch();
 import { Component, Watch } from "vue-property-decorator";
 import RecordItem from "@/custom";
+import recordListModel from "@/models/recordListModel";
 
 @Component({
   components: {
@@ -56,13 +57,13 @@ export default class Money extends Vue {
   }
   updateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
-    const record2: RecordItem = model.clone(this.record);
-    recordList.push(record2);
-    record2.createAt = new Date();
+  }
+  saveRecord() {
+    recordListModel.create(this.record);
   }
   @Watch("recordList")
   onRecordListChange() {
-    model.save(recordList);
+    recordListModel.save();
   }
 }
 </script>

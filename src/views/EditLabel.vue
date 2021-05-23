@@ -44,15 +44,15 @@ export default class extends Vue {
     }
   }
   update(name: string) {
-    console.log("sss");
-
     if (this.tag) {
       tagListModel.update(this.tag.id, name);
     }
   }
   remove() {
     if (this.tag) {
-      tagListModel.remove(this.tag.id);
+      if (tagListModel.remove(this.tag.id)) {
+        this.$router.back();
+      }
     }
   }
   goBack() {

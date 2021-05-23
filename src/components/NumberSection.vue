@@ -22,11 +22,12 @@
 
 
 <script lang='ts'>
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
 @Component
 export default class NumberSection extends Vue {
-  output = "0";
+  @Prop() readonly value!: number;
+  output = this.value.toString();
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement; //强制指定类型
     const input = button.textContent!;
@@ -61,7 +62,8 @@ export default class NumberSection extends Vue {
       alert("金额不能为0");
       return;
     }
-    this.$emit("update:amount", this.output);
+    this.$emit("update:value", this.output);
+    this.$emit("submit", this.output);
     this.output = "0";
   }
 }
