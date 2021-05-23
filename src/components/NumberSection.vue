@@ -57,7 +57,12 @@ export default class NumberSection extends Vue {
     }
   }
   ok() {
+    if (this.output === "0") {
+      alert("金额不能为0");
+      return;
+    }
     this.$emit("update:amount", this.output);
+    this.output = "0";
   }
 }
 </script>

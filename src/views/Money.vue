@@ -14,13 +14,10 @@ import NoteSection from "@/components/NoteSection.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
-type Record = {
-  tag: string;
-  note: string;
-  type: "+" | "-";
-  amount: number;
-};
+import model from "@/model";
+const recordList = model.fetch();
+import { Component, Watch } from "vue-property-decorator";
+// import "@/custom";
 
 @Component({
   components: {
@@ -32,7 +29,10 @@ type Record = {
 })
 export default class Money extends Vue {
   taglist = ["衣", "食", "住", "行"];
-  record: Record = {
+  // recordList: Record[] = JSON.parse(
+  //   window.localStorage.getItem("recordList") || "[]"
+  // );
+  record: RecordItem = {
     tag: "",
     note: "",
     type: "-",
@@ -49,6 +49,13 @@ export default class Money extends Vue {
   }
   updateAmount(amount: string) {
     this.record.amount = parseFloat(amount);
+    const record2: RecordItem = model.clone(this.record);
+    recordList.push(record2);
+    record2.createAt = new Date();
+  }
+  @Watch("recordList")
+  onRecordListChange() {
+    model.save(recordList);
   }
 }
 </script>
