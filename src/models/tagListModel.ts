@@ -14,7 +14,8 @@ const key = 'tagList'
 const tagListModel: TagListModel = {
     data: [],
     fetch() {
-        return JSON.parse(window.localStorage.getItem(key) || "[]")
+        this.data = JSON.parse(window.localStorage.getItem(key) || "[]")
+        return this.data
     },
     save() {
         window.localStorage.setItem(key, JSON.stringify(this.data));
