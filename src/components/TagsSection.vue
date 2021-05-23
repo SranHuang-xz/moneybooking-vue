@@ -3,7 +3,7 @@
     <ol class="current">
       <li
         v-for="tag in tags"
-        :key="tag"
+        :key="tag.id"
         :class="{ selected: selectedTag === tag }"
         @click="selecte(tag)"
       >

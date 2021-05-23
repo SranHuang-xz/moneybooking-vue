@@ -2,7 +2,11 @@
   <Layout class-prefix="money">
     {{ record }}
     <NumberSection @update:amount="updateAmount" />
-    <NoteSection @update:note="updateNote" />
+    <NoteSection
+      filedName="备注"
+      placeholder="写点什么吧"
+      @update:note="updateNote"
+    />
     <TagsSection :tags.sync="taglist" @update:selected="updateTag" />
     <CategorySection @update:type="updateType" />
   </Layout>

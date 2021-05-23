@@ -1,17 +1,19 @@
 <template>
   <div class="note">
     <label>
-      <span>备注</span>
-      <input type="text" v-model="value" placeholder="请填写备注" />
+      <span>{{ this.filedName }}</span>
+      <input type="text" v-model="value" :placeholder="this.placeholder" />
     </label>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class NoteSection extends Vue {
+  @Prop({ required: true }) filedName!: string;
+  @Prop() placeholder?: string;
   value = "";
   @Watch("value")
   onChange(note: string) {
