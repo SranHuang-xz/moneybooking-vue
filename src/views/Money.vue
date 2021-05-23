@@ -3,9 +3,9 @@
     {{ record }}
     <NumberSection @update:amount="updateAmount" />
     <FormItem
-      filedName="备注"
+      fieldName="备注"
       placeholder="写点什么吧"
-      @update:note="updateNote"
+      @update:value="updateNote"
       class="note"
     />
     <TagsSection :tags.sync="taglist" @update:selected="updateTag" />

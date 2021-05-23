@@ -1,7 +1,7 @@
 <template>
   <div class="note">
     <label>
-      <span>{{ this.filedName }}</span>
+      <span>{{ this.fieldName }}</span>
       <input
         type="text"
         :value="value"
@@ -17,12 +17,12 @@ import Vue from "vue";
 import { Component, Prop, Watch } from "vue-property-decorator";
 @Component
 export default class FormItem extends Vue {
-  @Prop({ required: true }) filedName!: string;
+  @Prop({ required: true }) fieldName!: string;
   @Prop() placeholder?: string;
   @Prop({ default: " " }) readonly value!: string;
   @Watch("value")
-  onChange(note: string) {
-    this.$emit("update:note", note);
+  onChange(value: string) {
+    this.$emit("update:value", value);
   }
 }
 </script>

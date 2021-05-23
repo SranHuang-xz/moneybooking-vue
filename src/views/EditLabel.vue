@@ -1,15 +1,20 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon name="back" />
+      <Icon name="back" @click="goBack" />
       <span>编辑标签</span>
       <div></div>
     </div>
     <div class="form">
-      <FormItem :value="tag.name" filed-name="标签名" placeholder="dd" />
+      <FormItem
+        :value="tag.name"
+        @update:value="update"
+        field-name="标签名"
+        placeholder="请输入标签名"
+      />
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -37,6 +42,21 @@ export default class extends Vue {
     } else {
       this.$router.replace("/404");
     }
+  }
+  update(name: string) {
+    console.log("sss");
+
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
+    }
+  }
+  remove() {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
+    }
+  }
+  goBack() {
+    this.$router.back();
   }
 }
 </script>
