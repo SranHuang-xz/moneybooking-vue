@@ -22,9 +22,7 @@ import { Component } from "vue-property-decorator";
 @Component({
   computed: {
     tagList() {
-      //TODO
       return this.$store.state.tagList;
-      // return [];
     },
   },
 })
@@ -53,11 +51,8 @@ export default class TagsSection extends Vue {
 .tag {
   background: #ffffff;
   flex-grow: 1;
-  /* flex-shrink: 1; */
-  /* height: 10px; */
   display: flex;
   flex-direction: column-reverse;
-  /* align-items: flex-start; */
   overflow: auto;
   padding-bottom: 10px;
   ::-webkit-scrollbar {
