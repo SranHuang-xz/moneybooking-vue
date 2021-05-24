@@ -20,6 +20,7 @@ import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+import store from "@/store/index2";
 
 @Component({
   components: {
@@ -30,8 +31,8 @@ import { Component } from "vue-property-decorator";
   },
 })
 export default class Money extends Vue {
-  taglist = window.tagList;
-  recordList = window.recordList;
+  taglist = store.tagList;
+  recordList = store.recordList;
   record: RecordItem = {
     tag: "",
     note: "",
@@ -51,7 +52,7 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(amount);
   }
   saveRecord() {
-    window.createRecord(this.record);
+    store.createRecord(this.record);
   }
 }
 </script>

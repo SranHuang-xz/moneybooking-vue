@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store/index2";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
@@ -33,7 +34,7 @@ export default class TagsSection extends Vue {
       alert("标签名不能为空");
     } else if (this.tags !== undefined && tag !== null) {
       // this.$emit("update:tags", [...this.tags, tag]);
-      window.createTag(tag);
+      store.createTag(tag);
     }
   }
 }
