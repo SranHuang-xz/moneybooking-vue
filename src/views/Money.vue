@@ -19,12 +19,9 @@ import FormItem from "@/components/FormItem.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
-// import model from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
 const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
 import { Component, Watch } from "vue-property-decorator";
-import RecordItem from "@/custom";
+
 import recordListModel from "@/models/recordListModel";
 
 @Component({
@@ -36,10 +33,7 @@ import recordListModel from "@/models/recordListModel";
   },
 })
 export default class Money extends Vue {
-  taglist = tagList;
-  // recordList: Record[] = JSON.parse(
-  //   window.localStorage.getItem("recordList") || "[]"
-  // );
+  taglist = window.tagList;
   record: RecordItem = {
     tag: "",
     note: "",

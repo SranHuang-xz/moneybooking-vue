@@ -7,7 +7,7 @@
         :class="{ selected: selectedTag === tag }"
         @click="selecte(tag)"
       >
-        {{ tag }}
+        {{ tag.name }}
       </li>
     </ol>
     <div class="new">
@@ -31,8 +31,9 @@ export default class TagsSection extends Vue {
     const tag = window.prompt("请输入标签名");
     if (tag === "") {
       alert("标签名不能为空");
-    } else if (this.tags !== undefined) {
-      this.$emit("update:tags", [...this.tags, tag]);
+    } else if (this.tags !== undefined && tag !== null) {
+      // this.$emit("update:tags", [...this.tags, tag]);
+      window.createTag(tag);
     }
   }
 }

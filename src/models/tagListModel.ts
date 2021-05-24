@@ -1,17 +1,17 @@
-import RecordItem from "@/custom";
+// import RecordItem from "@/custom";
 import { createID } from "@/lib/createID";
-type tag = {
-    id: string
-    name: string
-}
-type TagListModel = {
-    data: tag[]
-    fetch: () => tag[]
-    create: (name: string) => boolean
-    save: () => void
-    update: (id: string, name: string) => boolean
-    remove: (id: string) => boolean
-}
+// type tag = {
+//     id: string
+//     name: string
+// }
+// type TagListModel = {
+//     data: tag[]
+//     fetch: () => tag[]
+//     create: (name: string) => boolean
+//     save: () => void
+//     update: (id: string, name: string) => boolean
+//     remove: (id: string) => boolean
+// }
 
 const key = 'tagList'
 const tagListModel: TagListModel = {
