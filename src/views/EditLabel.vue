@@ -30,25 +30,25 @@ import Button from "@/components/Button.vue";
   },
 })
 export default class extends Vue {
-  get currentTag() {
+  get tag() {
     return this.$store.state.currentTag;
   }
   created() {
     const id = this.$route.params.id;
     this.$store.commit("fetchTags");
     this.$store.commit("setCurrentTag", id);
-    if (!this.currentTag) {
+    if (!this.tag) {
       this.$router.replace("/404");
     }
   }
   update(name: string) {
-    if (this.currentTag) {
-      this.$store.commit("updateTag", { id: this.currentTag.id, name });
+    if (this.tag) {
+      this.$store.commit("updateTag", { id: this.tag.id, name });
     }
   }
   remove() {
-    if (this.currentTag) {
-      this.$store.commit("removeTag", this.currentTag.id);
+    if (this.tag) {
+      this.$store.commit("removeTag", this.tag.id);
     }
   }
   goBack() {

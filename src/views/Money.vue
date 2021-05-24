@@ -9,24 +9,25 @@
       class="note"
     />
     <TagsSection />
-    <CategorySection @update:type="updateType" />
+    <Tab :data-source="typeList" :value.sync="record.type" />
   </Layout>
 </template>
 
 <script lang='ts'>
 import TagsSection from "@/components/TagsSection.vue";
 import FormItem from "@/components/FormItem.vue";
-import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
+import Tab from "@/components/Tab.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+import typeList from "@/constants/typeList";
 
 @Component({
   components: {
     TagsSection,
     FormItem,
-    CategorySection,
     NumberSection,
+    Tab,
   },
 })
 export default class Money extends Vue {
@@ -36,6 +37,7 @@ export default class Money extends Vue {
     type: "-",
     amount: 0,
   };
+  typeList = typeList;
   get recordList() {
     return this.$store.state.recordList;
   }
