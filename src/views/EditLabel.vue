@@ -23,7 +23,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import FormItem from "@/components/FormItem.vue";
 import Button from "@/components/Button.vue";
-// import store from "@/store/index2";
 @Component({
   components: {
     FormItem,
@@ -31,28 +30,25 @@ import Button from "@/components/Button.vue";
   },
 })
 export default class extends Vue {
-  get tag() {
+  get currentTag() {
     return this.$store.state.currentTag;
   }
   created() {
     const id = this.$route.params.id;
+    this.$store.commit("fetchTags");
     this.$store.commit("setCurrentTag", id);
-    if (!this.tag) {
+    if (!this.currentTag) {
       this.$router.replace("/404");
     }
   }
   update(name: string) {
-    if (this.tag) {
-      //TODO
-      // store.updateTag(this.tag.id, name);
+    if (this.currentTag) {
+      this.$store.commit("updateTag", { id: this.currentTag.id, name });
     }
   }
   remove() {
-    if (this.tag) {
-      //TODO
-      // if (store.removeTag(this.tag.id)) {
-      //   this.$router.back();
-      // }
+    if (this.currentTag) {
+      this.$store.commit("removeTag", this.currentTag.id);
     }
   }
   goBack() {
@@ -73,7 +69,6 @@ export default class extends Vue {
 .form {
   margin-top: 12px;
   background: white;
-  /* height: 44px; */
 }
 .button-wrapper {
   text-align: center;

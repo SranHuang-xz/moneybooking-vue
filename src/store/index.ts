@@ -1,5 +1,6 @@
 import Clone from '@/lib/clone'
 import { createID } from '@/lib/createID'
+import router from '@/router'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -56,9 +57,41 @@ const store = new Vuex.Store({
       state.currentTag = state.tagList.filter(t => t.id === id)[0]
 
     },
-    // findTag(state, id: string) {
-    //   return state.tagList.filter(t => t.id === id)[0]
-    // },
+    removeTag(state, id: string) {
+      let index = -1
+      for (let i = 0; i < state.tagList.length; i++) {
+        if (state.tagList[i].id === id) {
+          index = i
+          break
+        }
+      }
+      if (index >= 0) {
+        state.tagList.splice(index, 1)
+        store.commit("saveTags")
+        alert("删除成功")
+        router.back()
+      }
+      else {
+        alert("删除失败")
+      }
+
+
+    },
+    updateTag(state, object: { id: string, name: string }) {
+      const { id, name } = object
+      const idList = state.tagList.map(tag => tag.id)
+      if (idList.indexOf(id) >= 0) {
+        const names = state.tagList.map(tag => tag.name)
+        if (names.indexOf(name) >= 0) {
+          alert("该标签已存在")
+        }
+        else {
+          const tag = state.tagList.filter(tag => tag.id === id)[0]
+          tag.name = name
+          store.commit("saveTags")
+        }
+      }
+    }
   },
   actions: {
   },

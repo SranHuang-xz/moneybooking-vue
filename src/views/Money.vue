@@ -28,20 +28,17 @@ import { Component } from "vue-property-decorator";
     CategorySection,
     NumberSection,
   },
-  computed: {
-    recordList() {
-      return this.$store.state.recordList;
-    },
-  },
 })
 export default class Money extends Vue {
-  // recordList = state.$store.recordList;
   record: RecordItem = {
     tag: "",
     note: "",
     type: "-",
     amount: 0,
   };
+  get recordList() {
+    return this.$store.state.recordList;
+  }
   created() {
     this.$store.commit("fetchRecords");
   }
@@ -56,7 +53,6 @@ export default class Money extends Vue {
   }
   saveRecord() {
     this.$store.commit("createRecord", this.record);
-    // store.createRecord(this.record);
   }
 }
 </script>
