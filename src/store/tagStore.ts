@@ -24,7 +24,6 @@ const tagStore = {
     },
     saveTags() {
         window.localStorage.setItem(key, JSON.stringify(this.tagList));
-
     },
     removeTag(id: string) {
         let index = -1
