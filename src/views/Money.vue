@@ -19,10 +19,7 @@ import FormItem from "@/components/FormItem.vue";
 import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
-const recordList = recordListModel.fetch();
-import { Component, Watch } from "vue-property-decorator";
-
-import recordListModel from "@/models/recordListModel";
+import { Component } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -34,6 +31,7 @@ import recordListModel from "@/models/recordListModel";
 })
 export default class Money extends Vue {
   taglist = window.tagList;
+  recordList = window.recordList;
   record: RecordItem = {
     tag: "",
     note: "",
@@ -53,11 +51,7 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(amount);
   }
   saveRecord() {
-    recordListModel.create(this.record);
-  }
-  @Watch("recordList")
-  onRecordListChange() {
-    recordListModel.save();
+    window.createRecord(this.record);
   }
 }
 </script>
