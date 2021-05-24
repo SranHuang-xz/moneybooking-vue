@@ -13,6 +13,7 @@ const tagStore = {
         const names = this.tagList.map(tag => tag.name)
         if (names.indexOf(name) >= 0) {
             alert("该标签名已存在");
+            return false
         }
         const id = createID().toString()
         this.tagList.push({ id, name })

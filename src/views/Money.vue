@@ -8,7 +8,7 @@
       @update:value="updateNote"
       class="note"
     />
-    <TagsSection :tags.sync="taglist" @update:selected="updateTag" />
+    <TagsSection />
     <CategorySection @update:type="updateType" />
   </Layout>
 </template>
@@ -20,7 +20,6 @@ import CategorySection from "@/components/CategorySection.vue";
 import NumberSection from "@/components/NumberSection.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import store from "@/store/index2";
 
 @Component({
   components: {
@@ -29,18 +28,22 @@ import store from "@/store/index2";
     CategorySection,
     NumberSection,
   },
+  computed: {
+    recordList() {
+      return this.$store.state.recordList;
+    },
+  },
 })
 export default class Money extends Vue {
-  taglist = store.tagList;
-  recordList = store.recordList;
+  // recordList = state.$store.recordList;
   record: RecordItem = {
     tag: "",
     note: "",
     type: "-",
     amount: 0,
   };
-  updateTag(tag: string) {
-    this.record.tag = tag;
+  created() {
+    this.$store.commit("fetchRecords");
   }
   updateNote(note: string) {
     this.record.note = note;
@@ -52,7 +55,8 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(amount);
   }
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit("createRecord", this.record);
+    // store.createRecord(this.record);
   }
 }
 </script>

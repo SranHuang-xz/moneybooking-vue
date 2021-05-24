@@ -2,7 +2,7 @@
   <div class="tag">
     <ol class="current">
       <li
-        v-for="tag in tags"
+        v-for="tag in tagList"
         :key="tag.id"
         :class="{ selected: selectedTag === tag }"
         @click="selecte(tag)"
@@ -17,12 +17,19 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/index2";
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-@Component
+import { Component } from "vue-property-decorator";
+@Component({
+  computed: {
+    tagList() {
+      //TODO
+      // return this.$store.fetchTags();
+      return [];
+    },
+  },
+})
 export default class TagsSection extends Vue {
-  @Prop(Array) tags: string[] | undefined;
+  // tagList = store.fetchTags();
   selectedTag = "";
   selecte(tag: string) {
     this.selectedTag = tag;
@@ -30,12 +37,12 @@ export default class TagsSection extends Vue {
   }
   create() {
     const tag = window.prompt("请输入标签名");
-    if (tag === "") {
+    if (!tag) {
       alert("标签名不能为空");
-    } else if (this.tags !== undefined && tag !== null) {
-      // this.$emit("update:tags", [...this.tags, tag]);
-      store.createTag(tag);
+      return;
     }
+    //TODO
+    // store.createTag(tag);
   }
 }
 </script>
