@@ -9,7 +9,8 @@
       class="note"
     />
     <TagsSection />
-    <Tab :data-source="typeList" :value.sync="record.type" />
+    <!-- <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" /> -->
+    <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" />
   </Layout>
 </template>
 

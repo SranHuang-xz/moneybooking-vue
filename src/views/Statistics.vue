@@ -40,4 +40,9 @@ export default class Statistics extends Vue {
     }
   }
 }
+::v-deep .interval-tabs-item {
+  align-items: center;
+  height: 52px;
+  font-size: 22px;
+}
 </style>

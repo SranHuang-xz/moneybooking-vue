@@ -43,7 +43,7 @@ export default class Tabs extends Vue {
   > li {
     width: 50%;
     text-align: center;
-    padding: 16px 0;
+    padding: 14px 0;
     position: relative;
     color: gray;
     &.selected {
