@@ -13,7 +13,7 @@ type RecordItem = {
   note: string;
   type: "+" | "-";
   amount: number;
-  createAt?: Date;
+  createAt?: string;
 };
 type tag = {
   id: string
@@ -27,7 +27,11 @@ type TagListModel = {
   update: (id: string, name: string) => boolean
   remove: (id: string) => boolean
 }
-
+type RootState = {
+  recordList: RecordItem[],
+  tagList: tag[],
+  currentTag?: tag
+}
 // interface Window {
 //   store: {
 //     tagList: tag[],

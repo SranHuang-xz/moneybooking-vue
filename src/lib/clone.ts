@@ -1,4 +1,4 @@
-function Clone(data: any) {
+function Clone<x>(data: x): x {
     return JSON.parse(JSON.stringify(data))
 
 }
