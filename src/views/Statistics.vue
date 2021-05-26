@@ -2,25 +2,23 @@
   <div>
     <Layout>
       <Tab class-prefix="type" :dataSource="typeList" :value.sync="type" />
-      <Tab
-        class-prefix="interval"
-        :dataSource="intervalList"
-        :value.sync="interval"
-      />
-      <div class="data">
+      <div class="data" v-if="dataList.length > 0">
         <ol>
           <li v-for="(group, index) in dataList" :key="index">
             <!-- {{ group }} -->
             <ol>
-              <h3 class="title">{{ beautify(group.title) }}</h3>
+              <h3 class="title">
+                {{ beautify(group.title) }}<span>{{ group.total }}</span>
+              </h3>
               <li v-for="item in group.items" :key="item.id" class="record">
-                <span> {{ item.tag.name }}</span>
+                <span> {{ item.tag }}</span>
                 <span>￥{{ item.amount }}</span>
               </li>
             </ol>
           </li>
         </ol>
       </div>
+      <div class="nodata" v-else>目前还没有记账记录哟~</div>
     </Layout>
   </div>
 </template>
@@ -29,7 +27,6 @@
 import dayjs from "dayjs";
 import Tab from "@/components/Tab.vue";
 import Vue from "vue";
-import intervalList from "@/constants/intervalList";
 import typeList from "@/constants/typeList";
 import { Component } from "vue-property-decorator";
 import clone from "@/lib/clone";
@@ -40,8 +37,6 @@ import clone from "@/lib/clone";
 })
 export default class Statistics extends Vue {
   type = "-";
-  interval = "day";
-  intervalList = intervalList;
   typeList = typeList;
   beautify(string: string) {
     const day = dayjs(string);
@@ -63,13 +58,19 @@ export default class Statistics extends Vue {
   }
   get dataList() {
     const { recordList } = this;
+    type GroupList = { title: string; total?: number; items: RecordItem[] }[];
     if (recordList.length === 0) {
       return [];
     }
-    const newList = clone(recordList).sort(
-      (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
-    );
-    const groupList = [
+    const newList = clone(recordList)
+      .filter((r) => r.type === this.type)
+      .sort(
+        (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
+      );
+    if (newList.length === 0) {
+      return [] as GroupList;
+    }
+    const groupList: GroupList = [
       {
         title: dayjs(newList[0].createAt).format("YYYY-MM-DD"),
         items: [newList[0]],
@@ -88,8 +89,9 @@ export default class Statistics extends Vue {
         });
       }
     }
-    console.log(groupList);
-
+    groupList.forEach((group) => {
+      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+    });
     return groupList;
   }
   beforeCreate() {
@@ -108,11 +110,6 @@ export default class Statistics extends Vue {
     }
   }
 }
-::v-deep .interval-tabs-item {
-  align-items: center;
-  height: 52px;
-  font-size: 22px;
-}
 %item {
   padding: 8px 16px;
   line-height: 24px;
@@ -129,5 +126,9 @@ export default class Statistics extends Vue {
 }
 .data {
   overflow: auto;
+}
+.nodata {
+  padding: 40px;
+  text-align: center;
 }
 </style>

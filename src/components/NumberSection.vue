@@ -26,13 +26,13 @@ import { Component, Prop } from "vue-property-decorator";
 import Vue from "vue";
 @Component
 export default class NumberSection extends Vue {
-  @Prop() readonly value!: number;
+  @Prop(Number) readonly value!: number;
   output = this.value.toString();
   inputContent(event: MouseEvent) {
     const button = event.target as HTMLButtonElement; //强制指定类型
     const input = button.textContent!;
     if (this.output.length === 16) {
-      return;
+      return false;
     }
     if (this.output === "0") {
       if ("0123456789".indexOf(input) >= 0) {
@@ -62,8 +62,9 @@ export default class NumberSection extends Vue {
       alert("金额不能为0");
       return;
     }
-    this.$emit("update:value", this.output);
-    this.$emit("submit", this.output);
+    const number = parseFloat(this.output);
+    this.$emit("update:value", number);
+    this.$emit("submit", number);
     this.output = "0";
   }
 }

@@ -4,8 +4,8 @@
       <li
         v-for="tag in tagList"
         :key="tag.id"
-        :class="{ selected: selectedTag === tag }"
-        @click="selecte(tag)"
+        :class="{ selected: value === tag.name }"
+        @click="selecte(tag.name)"
       >
         {{ tag.name }}
       </li>
@@ -18,19 +18,25 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class TagsSection extends Vue {
-  selectedTag = "";
+  @Prop(String)
+  readonly value!: string;
+  // selectedTag = "";
   get tagList() {
     return this.$store.state.tagList;
   }
   created() {
     this.$store.commit("fetchTags");
+    // if (this.selectedTag === "") {
+    //   this.selectedTag = this.$store.state.tagList[0].name;
+    //   this.$emit("update:selected", this.selectedTag);
+    // }
   }
   selecte(tag: string) {
-    this.selectedTag = tag;
-    this.$emit("update:selected", this.selectedTag);
+    // this.selectedTag = tag;
+    this.$emit("update:selected", tag);
   }
   create() {
     const tag = window.prompt("请输入标签名");
