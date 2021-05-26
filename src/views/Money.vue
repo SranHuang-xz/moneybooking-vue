@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="money">
-    <!-- {{ record }} -->
+    {{ record }}
     <NumberSection :value.sync="record.amount" @submit="saveRecord" />
     <FormItem
       fieldName="备注"
@@ -8,7 +8,11 @@
       :value.sync="record.note"
       class="note"
     />
-    <TagsSection @update:selected="updateTag" :value="record.tag" />
+    <TagsSection
+      @update:selected="updateTag"
+      :value="record.tag"
+      :type="record.type"
+    />
     <!-- <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" /> -->
     <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" />
   </Layout>

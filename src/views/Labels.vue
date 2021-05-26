@@ -23,7 +23,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
-import typeList from "@/constants/typeList";
 
 @Component({
   components: {
@@ -43,7 +42,8 @@ export default class Labels extends Vue {
       alert("标签名不能为空");
       return;
     }
-    this.$store.commit("createTag", tag);
+    const type = "-";
+    this.$store.commit("createTag", { tag, type });
   }
 }
 </script>

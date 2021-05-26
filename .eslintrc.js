@@ -30,10 +30,7 @@ module.exports = {
       }
     },
     {
-      // enable the rule specifically for TypeScript files
-
       "files": ["*.js", "*.ts"],
-
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": "warn"
 

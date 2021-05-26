@@ -5,46 +5,45 @@
         v-for="tag in tagList"
         :key="tag.id"
         :class="{ selected: value === tag.name }"
-        @click="selecte(tag.name)"
+        @click="selecte(tag.name, type)"
       >
-        {{ tag.name }}
+        <Icon :name="`${tag.icon}`" />
+        <span class="tagname">{{ tag.name }}</span>
       </li>
     </ol>
-    <div class="new">
-      <button @click="create">新增标签</button>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
+import clone from "@/lib/clone";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 @Component
 export default class TagsSection extends Vue {
   @Prop(String)
   readonly value!: string;
-  // selectedTag = "";
+  @Prop(String)
+  readonly type!: string;
+
   get tagList() {
-    return this.$store.state.tagList;
+    const tagList: tag[] = clone(this.$store.state.tagList).filter(
+      (r: tag) => r.type === this.type || r.type === "all"
+    );
+    return tagList;
   }
   created() {
     this.$store.commit("fetchTags");
-    // if (this.selectedTag === "") {
-    //   this.selectedTag = this.$store.state.tagList[0].name;
-    //   this.$emit("update:selected", this.selectedTag);
-    // }
   }
-  selecte(tag: string) {
-    // this.selectedTag = tag;
-    this.$emit("update:selected", tag);
+  selecte(tag: string, type: string) {
+    tag === "添加" ? this.create(type) : this.$emit("update:selected", tag);
   }
-  create() {
+  create(type: string) {
     const tag = window.prompt("请输入标签名");
     if (!tag) {
       alert("标签名不能为空");
       return;
     }
-    this.$store.commit("createTag", tag);
+    this.$store.commit("createTag", { tag, type });
   }
 }
 </script>
@@ -65,16 +64,29 @@ export default class TagsSection extends Vue {
     flex-wrap: wrap;
 
     > li {
-      background: rgba(90, 92, 201, 0.2);
+      /* background: rgba(90, 92, 201, 0.2); */
       border-radius: 18px;
-      display: inline-block;
+      border: 1px red solid;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      /* justify-content: center; */
       font-size: 14px;
-      padding: 4px 16px;
-      margin: 10px 12px;
+      padding: 4px 14px;
+      margin: 8px 12px;
       color: gray;
+      fill: gray;
       &.selected {
         color: black;
-        background: rgba(90, 92, 201, 0.6);
+        fill: black;
+        /* background: rgba(90, 92, 201, 0.6); */
+      }
+      .icon {
+        font-size: 36px;
+      }
+      .tagname {
+        text-align: center;
       }
     }
   }

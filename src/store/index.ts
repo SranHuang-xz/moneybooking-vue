@@ -6,12 +6,28 @@ import Vuex from 'vuex'
 
 
 Vue.use(Vuex)
+const defaultTagOut: tag[] = [
+  { id: createID().toString(), name: "消费", icon: "money", type: "-" },
+  { id: createID().toString(), name: "餐饮", icon: "food", type: "-" },
+  { id: createID().toString(), name: "购物", icon: "buy", type: "-" },
+  { id: createID().toString(), name: "住房", icon: "home", type: "-" },
+  { id: createID().toString(), name: "交通", icon: "go", type: "-" },
+  { id: createID().toString(), name: "医疗", icon: "medical", type: "-" },
+  { id: createID().toString(), name: "娱乐", icon: "enjoy", type: "-" },
+  { id: createID().toString(), name: "借出", icon: "lend", type: "-" },
+  { id: createID().toString(), name: "工资", icon: "wage", type: "+" },
+  { id: createID().toString(), name: "借入", icon: "borrow", type: "+" },
+  { id: createID().toString(), name: "红包", icon: "redbag", type: "all" },
+  { id: createID().toString(), name: "其他", icon: "other", type: "all" },
+  { id: createID().toString(), name: "添加", icon: "add", type: "all" }
+]
 
 const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
-    currentTag: undefined
+    currentTag: undefined,
+    currentType: "-"
   } as RootState,
   mutations: {
     fetchRecords(state) {
@@ -32,20 +48,21 @@ const store = new Vuex.Store({
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]")
       if (!state.tagList || state.tagList.length === 0) {
-        store.commit('createTag', '消费')
-        store.commit('createTag', '交通')
-        store.commit('createTag', '住宿')
-        store.commit('createTag', '购物')
+        state.tagList = defaultTagOut
+        store.commit('saveTags')
       }
     },
-    createTag(state, name: string) {
+    createTag(state, object: { name: string, type: string }) {
       const names = state.tagList.map(tag => tag.name)
+      console.log(state.tagList);
+
+      const { name, type } = object
       if (names.indexOf(name) >= 0) {
         alert("该标签名已存在");
         return false
       }
       const id = createID().toString()
-      state.tagList.push({ id, name })
+      state.tagList.push({ id, name, type })
       store.commit('saveTags')
       // alert("添加成功");
       return true

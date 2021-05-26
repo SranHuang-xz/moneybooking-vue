@@ -7,17 +7,18 @@ declare module "*.svg" {
   const content: string;
   export default content;
 }
-
 type RecordItem = {
   tag: string;
   note: string;
-  type: "+" | "-";
+  type: string;
   amount: number;
   createAt?: string;
 };
 type tag = {
   id: string
   name: string
+  icon?: "other" | string
+  type: string
 }
 type TagListModel = {
   data: tag[]
@@ -30,7 +31,8 @@ type TagListModel = {
 type RootState = {
   recordList: RecordItem[],
   tagList: tag[],
-  currentTag?: tag
+  currentTag?: tag,
+  currentType: "-" | "+"
 }
 // interface Window {
 //   store: {
