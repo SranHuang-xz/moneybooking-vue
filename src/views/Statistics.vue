@@ -124,9 +124,11 @@ export default class Statistics extends Vue {
   background: white;
   @extend %item;
 }
-.data {
-  overflow: auto;
-}
+/* .data {
+  overflow-y: auto;
+  -ms-overflow-style: none;
+} */
+
 .nodata {
   padding: 40px;
   text-align: center;

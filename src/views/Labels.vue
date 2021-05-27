@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <Layout>
-      <ol>
-        <router-link
-          :to="`/labels/edit/${tag.id}`"
-          v-for="tag in tags"
-          :key="tag.id"
-          class="tag"
-        >
-          <span>{{ tag.name }}</span>
-          <Icon name="right" />
-        </router-link>
-      </ol>
-      <div class="createTag-wrapper">
-        <Button @click="createTag">新增标签</Button>
-      </div>
-    </Layout>
-  </div>
+  <Layout>
+    <router-link
+      :to="`/labels/edit/${tag.id}`"
+      v-for="tag in tags"
+      :key="tag.id"
+      class="tag"
+    >
+      <span>{{ tag.name }}</span>
+      <Icon name="right" />
+    </router-link>
+
+    <div class="createTag-wrapper">
+      <Button @click="createTag">新增标签</Button>
+    </div>
+  </Layout>
 </template>
 
 <script lang='ts'>
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue";
+import clone from "@/lib/clone";
 
 @Component({
   components: {
@@ -31,19 +29,32 @@ import Button from "@/components/Button.vue";
 })
 export default class Labels extends Vue {
   get tags() {
-    return this.$store.state.tagList;
+    const taglist = clone(this.$store.state.tagList);
+    taglist.pop();
+    return taglist;
   }
   beforeCreate() {
     this.$store.commit("fetchTags");
   }
   createTag() {
-    const tag = window.prompt("请输入标签名");
-    if (!tag) {
-      alert("标签名不能为空");
+    const tag = prompt("请输入标签名");
+
+    setTimeout(() => {
+      alert("dd" + tag);
+      this.judege(tag);
+    }, 5000);
+  }
+  judege(tags: string | null) {
+    alert(tags);
+    const tag = tags;
+    if (tag !== null && tag !== "") {
+      const type = "-";
+      this.$store.commit("createTags", { name: tag, type });
+    } else if (tag === null) {
       return;
+    } else {
+      alert("标签名不能为空");
     }
-    const type = "-";
-    this.$store.commit("createTag", { tag, type });
   }
 }
 </script>

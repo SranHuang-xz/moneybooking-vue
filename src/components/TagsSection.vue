@@ -1,6 +1,6 @@
 <template>
   <div class="tag">
-    <ol class="current">
+    <ol>
       <li
         v-for="tag in tagList"
         :key="tag.id"
@@ -10,6 +10,10 @@
         <Icon :name="`${tag.icon}`" />
         <span class="tagname">{{ tag.name }}</span>
       </li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
     </ol>
   </div>
 </template>
@@ -24,7 +28,6 @@ export default class TagsSection extends Vue {
   readonly value!: string;
   @Prop(String)
   readonly type!: string;
-
   get tagList() {
     const tagList: tag[] = clone(this.$store.state.tagList).filter(
       (r: tag) => r.type === this.type || r.type === "all"
@@ -39,66 +42,61 @@ export default class TagsSection extends Vue {
   }
   create(type: string) {
     const tag = window.prompt("请输入标签名");
-    if (!tag) {
-      alert("标签名不能为空");
+    if (tag !== null && tag !== "") {
+      this.$store.commit("createTags", { name: tag, type });
+    } else if (tag === null) {
       return;
+    } else {
+      alert("标签名不能为空");
     }
-    this.$store.commit("createTag", { tag, type });
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .tag {
+  width: 100%;
+  /* border: 1px solid blue; */
   background: #ffffff;
   flex-grow: 1;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
-  flex-direction: column-reverse;
-  overflow: auto;
-  padding-bottom: 10px;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  > .current {
+  overflow-y: auto;
+  > ol {
     display: flex;
     flex-wrap: wrap;
-
+    justify-content: space-evenly;
+    /* margin: 12px -8px; */
     > li {
-      /* background: rgba(90, 92, 201, 0.2); */
       border-radius: 18px;
-      border: 1px red solid;
       display: flex;
+      width: 70px;
       flex-direction: column;
       align-items: center;
-      justify-content: space-around;
-      /* justify-content: center; */
       font-size: 14px;
-      padding: 4px 14px;
-      margin: 8px 12px;
+      margin: 12px 10px;
       color: gray;
       fill: gray;
       &.selected {
         color: black;
         fill: black;
-        /* background: rgba(90, 92, 201, 0.6); */
       }
       .icon {
-        font-size: 36px;
+        font-size: 40px;
       }
       .tagname {
+        max-width: 62px;
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
-  > .new {
-    > button {
-      background: none;
-      border: none;
-      padding: 0 4px;
-      border-bottom: 1px solid #333;
-      color: #666;
-      margin-top: 8px;
-    }
-  }
+}
+.tag::-webkit-scrollbar {
+  display: none;
 }
 </style>

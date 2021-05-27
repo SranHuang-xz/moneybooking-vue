@@ -21,11 +21,14 @@ export default {
   /* border: 1px red solid; */
   flex-direction: column;
   height: 100vh;
+  background: #e6e6e6;
 }
 .content {
   flex-grow: 1;
   overflow: auto;
-  /* justify-content: end; */
-  /* border: 1px green solid; */
+  -ms-overflow-style: none;
+}
+.content::-webkit-scrollbar {
+  display: none;
 }
 </style>

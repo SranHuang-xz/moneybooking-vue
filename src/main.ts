@@ -7,12 +7,13 @@ import Nav from './components/Nav.vue'
 import Layout from './components/Layout.vue'
 import Icon from './components/Icon.vue'
 
+const VueTouch = require('vue-touch')
+Vue.use(VueTouch, { name: 'v-touch' })
 
 Vue.config.productionTip = false
 Vue.component('Nav', Nav)
 Vue.component('Layout', Layout)
 Vue.component('Icon', Icon)
-
 
 new Vue({
   router,

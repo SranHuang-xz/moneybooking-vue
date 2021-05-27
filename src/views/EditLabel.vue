@@ -48,7 +48,11 @@ export default class extends Vue {
   }
   remove() {
     if (this.tag) {
-      this.$store.commit("removeTag", this.tag.id);
+      if (this.tag.icon === "add") {
+        window.alert("该标签不能删除！");
+      } else {
+        this.$store.commit("removeTag", this.tag.id);
+      }
     }
   }
   goBack() {

@@ -78,7 +78,7 @@ export default class NumberSection extends Vue {
   > .output {
     background: white;
     font-size: 36px;
-    line-height: 56px;
+    line-height: 64px;
     text-align: right;
     padding: 0 16px;
   }
@@ -87,11 +87,11 @@ export default class NumberSection extends Vue {
     > button {
       float: left;
       width: 25%;
-      height: 48px;
+      height: 64px;
       font-size: 18px;
       border: none;
       &.ok {
-        height: 96px;
+        height: 128px;
         float: right;
       }
       &.zero {

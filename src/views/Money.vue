@@ -1,6 +1,5 @@
 <template>
   <Layout class-prefix="money">
-    {{ record }}
     <NumberSection :value.sync="record.amount" @submit="saveRecord" />
     <FormItem
       fieldName="备注"
@@ -13,8 +12,12 @@
       :value="record.tag"
       :type="record.type"
     />
-    <!-- <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" /> -->
-    <Tab class-prefix="type" :dataSource="typeList" :value.sync="record.type" />
+    <Tab
+      class-prefix="type"
+      :dataSource="typeList"
+      :value.sync="record.type"
+      @update:value="updateType"
+    />
   </Layout>
 </template>
 
@@ -26,6 +29,7 @@ import Tab from "@/components/Tab.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import typeList from "@/constants/typeList";
+import clone from "@/lib/clone";
 
 @Component({
   components: {
@@ -51,14 +55,12 @@ export default class Money extends Vue {
     this.$store.commit("fetchTags");
     this.record.tag = this.$store.state.tagList[0].name;
   }
-  updateNote(note: string) {
-    this.record.note = note;
-  }
   updateType(type: "+" | "-") {
     this.record.type = type;
-  }
-  updateAmount(amount: string) {
-    this.record.amount = parseFloat(amount);
+    const tagList = clone(this.$store.state.tagList).filter(
+      (r: tag) => r.type === type || r.type === "all"
+    );
+    this.record.tag = tagList[0].name;
   }
   updateTag(tag: string) {
     this.record.tag = tag;
@@ -67,7 +69,10 @@ export default class Money extends Vue {
     this.$store.commit("createRecord", this.record);
     window.alert("记账成功！");
     this.record.note = "";
-    this.record.tag = this.$store.state.tagList[0].name;
+    const tagList = clone(this.$store.state.tagList).filter(
+      (r: tag) => r.type === this.record.type || r.type === "all"
+    );
+    this.record.tag = tagList[0].name;
   }
 }
 </script>

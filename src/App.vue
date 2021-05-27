@@ -8,12 +8,15 @@
 @import "~@/assets/style/helper.scss";
 body {
   height: 100vh;
+  max-width: 500px;
+  /* max-height: 800px; */
+  margin: 0 auto;
   line-height: 1.5;
   font-family: $font-hei;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
-  background: #e6e6e6;
+  background: rgb(206, 201, 201);
 }
 * {
   margin: 0;

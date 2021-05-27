@@ -52,19 +52,19 @@ const store = new Vuex.Store({
         store.commit('saveTags')
       }
     },
-    createTag(state, object: { name: string, type: string }) {
+    createTags(state, object: { name: string, type: string }) {
+      alert("wytjl")
       const names = state.tagList.map(tag => tag.name)
-      console.log(state.tagList);
-
       const { name, type } = object
       if (names.indexOf(name) >= 0) {
         alert("该标签名已存在");
         return false
       }
       const id = createID().toString()
-      state.tagList.push({ id, name, type })
+      const icon = "other"
+      state.tagList.splice(state.tagList.length - 1, 0, { id, name, icon, type })
       store.commit('saveTags')
-      // alert("添加成功");
+      alert("添加成功");
       return true
     },
     saveTags(state) {
