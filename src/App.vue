@@ -9,7 +9,6 @@
 body {
   height: 100vh;
   max-width: 500px;
-  /* max-height: 800px; */
   margin: 0 auto;
   line-height: 1.5;
   font-family: $font-hei;

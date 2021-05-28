@@ -33,12 +33,10 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import TagsSection from "@/components/TagsSection.vue";
 import Button from "@/components/Button.vue";
 import clone from "@/lib/clone";
 @Component({
   components: {
-    TagsSection,
     Button,
   },
 })
@@ -52,8 +50,6 @@ export default class AddLabel extends Vue {
     const tagList: tag[] = this.$store.state.tagList;
     console.log(defaultTags);
     console.log(tagList);
-    // let x: tag[] = [];
-
     for (let i = 0; i < defaultTags.length; i++) {
       for (let j = 0; j < tagList.length; j++) {
         if (defaultTags[i].name === tagList[j].name) {
@@ -64,9 +60,6 @@ export default class AddLabel extends Vue {
         }
       }
     }
-    // if (this.selectedTag == "") {
-    //   this.selectedTag = this.y[0].name;
-    // }
     return this.y;
   }
   chooseTag(tag: string) {
@@ -76,16 +69,14 @@ export default class AddLabel extends Vue {
     this.$store.commit("fetchTags");
   }
   ensure() {
-    // console.log(this.selectedTag);
-
     if (this.selectedTag === "") {
       alert("请至少选择一个标签");
     } else {
-      const x = clone(this.y).filter((r) => r.name === this.selectedTag);
+      const x = clone(this.y).filter((r) => r.name === this.selectedTag)[0];
       this.$store.commit("createTags", {
-        name: x[0].name,
-        type: x[0].type,
-        icon: x[0].icon,
+        name: x.name,
+        type: x.type,
+        icon: x.icon,
       });
       this.selectedTag = "";
     }
@@ -110,7 +101,6 @@ export default class AddLabel extends Vue {
   text-align: center;
   padding: 4px 16px;
   margin-right: 24px;
-  /* margin-top: 44px -16px; */
 }
 .show {
   display: flex;
@@ -130,7 +120,6 @@ export default class AddLabel extends Vue {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    /* margin: 12px -8px; */
     > li {
       border-radius: 18px;
       display: flex;

@@ -1,6 +1,5 @@
 <template>
   <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
-    <!-- :class="classPrefix && `${classPrefix}-wrapper` -->
     <div class="content" :class="classPrefix && `${classPrefix}-content`">
       <slot></slot>
     </div>
@@ -18,7 +17,6 @@ export default {
 <style lang="scss" scoped>
 .layout-wrapper {
   display: flex;
-  /* border: 1px red solid; */
   flex-direction: column;
   height: 100vh;
   background: #e6e6e6;

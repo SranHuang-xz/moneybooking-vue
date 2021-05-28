@@ -5,7 +5,6 @@
       <div class="data" v-if="dataList.length > 0">
         <ol>
           <li v-for="(group, index) in dataList" :key="index">
-            <!-- {{ group }} -->
             <ol>
               <h3 class="title">
                 {{ beautify(group.title) }}<span>{{ group.total }}</span>
@@ -124,11 +123,6 @@ export default class Statistics extends Vue {
   background: white;
   @extend %item;
 }
-/* .data {
-  overflow-y: auto;
-  -ms-overflow-style: none;
-} */
-
 .nodata {
   padding: 40px;
   text-align: center;

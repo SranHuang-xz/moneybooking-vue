@@ -61,7 +61,6 @@ export default class TagsSection extends Vue {
 <style lang="scss" scoped>
 .tag {
   width: 100%;
-  /* border: 1px solid blue; */
   background: #ffffff;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -73,7 +72,6 @@ export default class TagsSection extends Vue {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    /* margin: 12px -8px; */
     > li {
       border-radius: 18px;
       display: flex;
@@ -97,7 +95,6 @@ export default class TagsSection extends Vue {
 }
 .icon {
   font-size: 40px;
-  /* fill: gray; */
 }
 .tagname {
   max-width: 62px;
