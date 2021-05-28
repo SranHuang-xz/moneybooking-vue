@@ -12,6 +12,17 @@ const defaultTagOut: tag[] = [
   { id: createID().toString(), name: "购物", icon: "buy", type: "-" },
   { id: createID().toString(), name: "住房", icon: "home", type: "-" },
   { id: createID().toString(), name: "交通", icon: "go", type: "-" },
+  { id: createID().toString(), name: "工资", icon: "wage", type: "+" },
+  { id: createID().toString(), name: "借入", icon: "borrow", type: "+" },
+  { id: createID().toString(), name: "红包", icon: "redbag", type: "all" },
+  { id: createID().toString(), name: "其他", icon: "other", type: "all" },
+]
+const defaultTagList: tag[] = [
+  { id: createID().toString(), name: "消费", icon: "money", type: "-" },
+  { id: createID().toString(), name: "餐饮", icon: "food", type: "-" },
+  { id: createID().toString(), name: "购物", icon: "buy", type: "-" },
+  { id: createID().toString(), name: "住房", icon: "home", type: "-" },
+  { id: createID().toString(), name: "交通", icon: "go", type: "-" },
   { id: createID().toString(), name: "医疗", icon: "medical", type: "-" },
   { id: createID().toString(), name: "娱乐", icon: "enjoy", type: "-" },
   { id: createID().toString(), name: "借出", icon: "lend", type: "-" },
@@ -19,19 +30,21 @@ const defaultTagOut: tag[] = [
   { id: createID().toString(), name: "借入", icon: "borrow", type: "+" },
   { id: createID().toString(), name: "红包", icon: "redbag", type: "all" },
   { id: createID().toString(), name: "其他", icon: "other", type: "all" },
-  { id: createID().toString(), name: "添加", icon: "add", type: "all" }
 ]
-
 const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
+    defaultTags: defaultTagList,
     currentTag: undefined,
     currentType: "-"
   } as RootState,
   mutations: {
+    // saveDefaultTags(state) {
+    //   state.defaultTags=defaultTagList
+    //   window.localStorage.setItem("defaultTags", JSON.stringify(state.defaultTags));
+    // },
     fetchRecords(state) {
-      // const recordList = JSON.parse(window.localStorage.getItem(key) || "[]") as RecordItem[]
       state.recordList = JSON.parse(window.localStorage.getItem("recordList") || "[]") as RecordItem[]
     },
     createRecord(state, record: RecordItem) {
@@ -52,19 +65,19 @@ const store = new Vuex.Store({
         store.commit('saveTags')
       }
     },
-    createTags(state, object: { name: string, type: string }) {
-      alert("wytjl")
+    createTags(state, object: { name: string, type: string, icon: string }) {
       const names = state.tagList.map(tag => tag.name)
-      const { name, type } = object
+      const { name, type, icon } = object
       if (names.indexOf(name) >= 0) {
-        alert("该标签名已存在");
+        alert("该标签已存在");
         return false
       }
       const id = createID().toString()
-      const icon = "other"
-      state.tagList.splice(state.tagList.length - 1, 0, { id, name, icon, type })
+      // const icon = "other"
+      state.tagList.splice(state.tagList.length, 0, { id, name, icon, type })
       store.commit('saveTags')
       alert("添加成功");
+      router.back()
       return true
     },
     saveTags(state) {

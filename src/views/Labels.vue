@@ -11,7 +11,9 @@
     </router-link>
 
     <div class="createTag-wrapper">
-      <Button @click="createTag">新增标签</Button>
+      <router-link to="/labels/add">
+        <Button>新增标签</Button>
+      </router-link>
     </div>
   </Layout>
 </template>
@@ -29,32 +31,10 @@ import clone from "@/lib/clone";
 })
 export default class Labels extends Vue {
   get tags() {
-    const taglist = clone(this.$store.state.tagList);
-    taglist.pop();
-    return taglist;
+    return this.$store.state.tagList;
   }
   beforeCreate() {
     this.$store.commit("fetchTags");
-  }
-  createTag() {
-    const tag = prompt("请输入标签名");
-
-    setTimeout(() => {
-      alert("dd" + tag);
-      this.judege(tag);
-    }, 5000);
-  }
-  judege(tags: string | null) {
-    alert(tags);
-    const tag = tags;
-    if (tag !== null && tag !== "") {
-      const type = "-";
-      this.$store.commit("createTags", { name: tag, type });
-    } else if (tag === null) {
-      return;
-    } else {
-      alert("标签名不能为空");
-    }
   }
 }
 </script>

@@ -29,7 +29,7 @@ import Button from "@/components/Button.vue";
     Button,
   },
 })
-export default class extends Vue {
+export default class EditLabel extends Vue {
   get tag() {
     return this.$store.state.currentTag;
   }

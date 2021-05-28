@@ -10,7 +10,12 @@
         <Icon :name="`${tag.icon}`" />
         <span class="tagname">{{ tag.name }}</span>
       </li>
-      <li></li>
+
+      <li>
+        <router-link to="/labels/add">
+          <Icon name="add" /> <span class="tagname">添加</span>
+        </router-link>
+      </li>
       <li></li>
       <li></li>
       <li></li>
@@ -38,7 +43,7 @@ export default class TagsSection extends Vue {
     this.$store.commit("fetchTags");
   }
   selecte(tag: string, type: string) {
-    tag === "添加" ? this.create(type) : this.$emit("update:selected", tag);
+    this.$emit("update:selected", tag);
   }
   create(type: string) {
     const tag = window.prompt("请输入标签名");
@@ -83,18 +88,23 @@ export default class TagsSection extends Vue {
         color: black;
         fill: black;
       }
-      .icon {
-        font-size: 40px;
-      }
-      .tagname {
-        max-width: 62px;
+      > a {
         text-align: center;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        fill: gray;
       }
     }
   }
+}
+.icon {
+  font-size: 40px;
+  /* fill: gray; */
+}
+.tagname {
+  max-width: 62px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .tag::-webkit-scrollbar {
   display: none;

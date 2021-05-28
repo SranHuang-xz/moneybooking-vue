@@ -31,6 +31,7 @@ type TagListModel = {
 type RootState = {
   recordList: RecordItem[],
   tagList: tag[],
+  defaultTags: tag[],
   currentTag?: tag,
   currentType: "-" | "+"
 }
