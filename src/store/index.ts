@@ -26,6 +26,12 @@ const defaultTagList: tag[] = [
   { id: createID().toString(), name: "医疗", icon: "medical", type: "-" },
   { id: createID().toString(), name: "娱乐", icon: "enjoy", type: "-" },
   { id: createID().toString(), name: "借出", icon: "lend", type: "-" },
+  { id: createID().toString(), name: "水电", icon: "water", type: "-" },
+  { id: createID().toString(), name: "衣服", icon: "cloth", type: "-" },
+  { id: createID().toString(), name: "化妆", icon: "makeup", type: "-" },
+  { id: createID().toString(), name: "礼物", icon: "gift", type: "+" },
+  { id: createID().toString(), name: "奖金", icon: "price", type: "+" },
+  { id: createID().toString(), name: "理财", icon: "conduct", type: "+" },
   { id: createID().toString(), name: "工资", icon: "wage", type: "+" },
   { id: createID().toString(), name: "借入", icon: "borrow", type: "+" },
   { id: createID().toString(), name: "红包", icon: "redbag", type: "all" },
@@ -40,10 +46,6 @@ const store = new Vuex.Store({
     currentType: "-"
   } as RootState,
   mutations: {
-    // saveDefaultTags(state) {
-    //   state.defaultTags=defaultTagList
-    //   window.localStorage.setItem("defaultTags", JSON.stringify(state.defaultTags));
-    // },
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem("recordList") || "[]") as RecordItem[]
     },
@@ -52,8 +54,6 @@ const store = new Vuex.Store({
       record2.createAt = new Date().toISOString();
       state.recordList.push(record2)
       store.commit('saveRecords')
-      // recordStore.saveRecords()
-
     },
     saveRecords(state) {
       window.localStorage.setItem("recordList", JSON.stringify(state.recordList));

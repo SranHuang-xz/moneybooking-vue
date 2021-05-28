@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="tag" />标签
+      <Icon name="newtag" />标签
     </router-link>
     <router-link to="/money" class="item" active-class="selected">
       <Icon name="money" />记账
@@ -21,6 +21,7 @@ export default {
 <style lang="scss" scoped>
 nav {
   display: flex;
+  background: white;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.25);
   flex-direction: row;
   font-size: 12px;
@@ -39,7 +40,7 @@ nav {
     &.selected {
       color: black;
       .icon {
-        fill: black;
+        fill: rgb(1, 61, 34);
       }
     }
   }

@@ -38,7 +38,7 @@ export default class Tabs extends Vue {
 <style scoped lang='scss'>
 .types {
   font-size: 24px;
-  background: rgba(163, 163, 214, 0.5);
+  background: rgb(92, 180, 141, 0.4);
   display: flex;
   > li {
     width: 50%;
@@ -48,6 +48,7 @@ export default class Tabs extends Vue {
     color: gray;
     &.selected {
       color: black;
+      background: rgb(92, 180, 141);
     }
     &.selected::after {
       content: "";

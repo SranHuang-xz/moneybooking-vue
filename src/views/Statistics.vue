@@ -101,7 +101,7 @@ export default class Statistics extends Vue {
 
 <style lang="scss" scoped>
 ::v-deep .type-tabs-item {
-  background: white;
+  /* background: white; */
   &.selected {
     background: #c4c4c4;
     &::after {
@@ -118,6 +118,7 @@ export default class Statistics extends Vue {
 }
 .title {
   @extend %item;
+  /* background: white; */
 }
 .record {
   background: white;

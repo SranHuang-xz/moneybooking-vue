@@ -7,6 +7,7 @@
     </div>
     <div class="form">
       <FormItem
+        classPrefix="labelform"
         :value="tag.name"
         @update:value="update"
         field-name="标签名"
@@ -47,21 +48,19 @@ export default class EditLabel extends Vue {
     }
   }
   remove() {
-    if (this.tag) {
-      if (this.tag.icon === "add") {
-        window.alert("该标签不能删除！");
-      } else {
-        this.$store.commit("removeTag", this.tag.id);
-      }
-    }
+    this.$store.commit("removeTag", this.tag.id);
   }
   goBack() {
+    if (!this.tag.name) {
+      alert("标签名不能为空");
+      return;
+    }
     this.$router.back();
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .navBar {
   display: flex;
   justify-content: space-between;
@@ -78,5 +77,20 @@ export default class EditLabel extends Vue {
   text-align: center;
   padding: 16px;
   margin-top: 44px -16px;
+}
+::v-deep .labelform {
+  display: flex;
+  align-items: center;
+  > span {
+    margin: 0 16px;
+    white-space: nowrap;
+  }
+  > input {
+    height: 48px;
+    border: none;
+    padding: 2px 2px;
+    margin-bottom: 2px;
+    font-size: 16px;
+  }
 }
 </style>

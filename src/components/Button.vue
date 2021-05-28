@@ -8,8 +8,8 @@ export default {};
 
 <style lang="scss" scoped>
 .button {
-  background: #767676;
-  color: white;
+  background: rgb(92, 180, 141);
+  color: black;
   border-radius: 4px;
   border: none;
   padding: 0 16px;

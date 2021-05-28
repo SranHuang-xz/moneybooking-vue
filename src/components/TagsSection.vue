@@ -84,7 +84,7 @@ export default class TagsSection extends Vue {
       fill: gray;
       &.selected {
         color: black;
-        fill: black;
+        fill: rgb(1, 61, 34);
       }
       > a {
         text-align: center;

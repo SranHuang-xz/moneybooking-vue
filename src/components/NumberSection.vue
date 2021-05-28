@@ -101,32 +101,32 @@ export default class NumberSection extends Vue {
         width: 25%;
       }
       &:nth-child(1) {
-        background: rgba(90, 92, 201, 0.4);
+        background: rgb(92, 180, 141, 0.4);
       }
       &:nth-child(2),
       &:nth-child(5) {
-        background: rgba(90, 92, 201, 0.5);
+        background: rgb(92, 180, 141, 0.5);
       }
       &:nth-child(3),
       &:nth-child(6),
       &:nth-child(9) {
-        background: rgba(90, 92, 201, 0.6);
+        background: rgb(92, 180, 141, 0.6);
       }
       &:nth-child(4),
       &:nth-child(7),
       &:nth-child(10),
       &:nth-child(13) {
-        background: rgba(90, 92, 201, 0.7);
+        background: rgb(92, 180, 141, 0.7);
       }
       &:nth-child(8),
       &:nth-child(11) {
-        background: rgba(90, 92, 201, 0.8);
+        background: rgb(92, 180, 141, 0.8);
       }
       &:nth-child(12) {
-        background: #5a5cc9;
+        background: rgb(92, 180, 141);
       }
       &:nth-child(14) {
-        background: rgba(90, 92, 201, 0.9);
+        background: rgb(92, 180, 141, 0.9);
       }
     }
   }

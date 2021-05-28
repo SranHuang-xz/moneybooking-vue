@@ -6,7 +6,7 @@
       <div></div>
     </div>
     <div class="show">
-      <div class="span">选择的标签是：{{ this.selectedTag }}</div>
+      <div class="span">标签名：{{ this.selectedTag }}</div>
       <div class="button-wrapper">
         <Button @click="ensure">确定</Button>
       </div>
@@ -96,10 +96,12 @@ export default class AddLabel extends Vue {
   font-size: 16px;
   background: white;
 }
-
+.span {
+  margin-left: 12px;
+}
 .button-wrapper {
   text-align: center;
-  padding: 4px 16px;
+  padding: 8px 16px;
   margin-right: 24px;
 }
 .show {
@@ -108,6 +110,7 @@ export default class AddLabel extends Vue {
   align-items: center;
 }
 .tag {
+  padding-top: 18px;
   width: 100%;
   background: #ffffff;
   flex-grow: 1;
@@ -132,7 +135,7 @@ export default class AddLabel extends Vue {
       fill: gray;
       &.selected {
         color: black;
-        fill: black;
+        fill: rgb(1, 61, 34);
       }
       .icon {
         font-size: 40px;
