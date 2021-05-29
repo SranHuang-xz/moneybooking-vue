@@ -3,7 +3,6 @@ import Clone from '@/lib/clone'
 import { createID } from '@/lib/createID'
 import router from '@/router'
 import dayjs from 'dayjs'
-import { update } from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 

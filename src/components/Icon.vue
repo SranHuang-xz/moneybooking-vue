@@ -23,7 +23,6 @@ export default {
   height: 1em;
   width: 1em;
   vertical-align: -0.15em;
-  /* fill: red; */
   overflow: hidden;
 }
 </style>
