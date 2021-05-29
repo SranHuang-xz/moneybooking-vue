@@ -3,6 +3,7 @@ declare module '*.vue' {
   export default Vue
 }
 
+
 declare module "*.svg" {
   const content: string;
   export default content;
@@ -28,10 +29,13 @@ type TagListModel = {
   update: (id: string, name: string) => boolean
   remove: (id: string) => boolean
 }
+type GroupList = { title: string; total?: number; items: RecordItem[] }[];
 type RootState = {
   recordList: RecordItem[],
   tagList: tag[],
   defaultTags: tag[],
+  groupList: GroupList
   currentTag?: tag,
   currentType: "-" | "+"
 }
+declare module 'lodash'

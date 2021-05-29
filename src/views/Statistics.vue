@@ -52,49 +52,9 @@ export default class Statistics extends Vue {
       return day.format("YYY年M月D日");
     }
   }
-  get recordList() {
-    return (this.$store.state as RootState).recordList;
-  }
   get dataList() {
-    const { recordList } = this;
-    type GroupList = { title: string; total?: number; items: RecordItem[] }[];
-    if (recordList.length === 0) {
-      return [];
-    }
-    const newList = clone(recordList)
-      .filter((r) => r.type === this.type)
-      .sort(
-        (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
-      );
-    if (newList.length === 0) {
-      return [] as GroupList;
-    }
-    const groupList: GroupList = [
-      {
-        title: dayjs(newList[0].createAt).format("YYYY-MM-DD"),
-        items: [newList[0]],
-      },
-    ];
-
-    for (let i = 1; i < newList.length; i++) {
-      const current = newList[i];
-      const last = groupList[groupList.length - 1];
-      if (dayjs(last.title).isSame(dayjs(current.createAt), "day")) {
-        last.items.push(current);
-      } else {
-        groupList.push({
-          title: dayjs(current.createAt).format("YYYY-MM-DD"),
-          items: [current],
-        });
-      }
-    }
-    groupList.forEach((group) => {
-      group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
-    });
-    return groupList;
-  }
-  beforeCreate() {
-    this.$store.commit("fetchRecords");
+    this.$store.commit("updateGroupList", this.type);
+    return this.$store.state.groupList;
   }
 }
 </script>

@@ -2,11 +2,9 @@
   <Layout>
     <Tab :dataSource="typeList" :value.sync="type" />
     <div class="main" ref="main" style="width: 100%; height: 300px"></div>
-    <div
-      class="main"
-      ref="totalDigital"
-      style="width: 100%; height: 300px"
-    ></div>
+    <div class="chart-wrapper">
+      <div class="chart" ref="totalDigital" style="height: 300px"></div>
+    </div>
   </Layout>
 </template>
 
@@ -14,12 +12,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import * as echart from "echarts/core";
 import Tab from "@/components/Tab.vue";
+import day from "dayjs";
 import {
   BarChart,
   // 系列类型的定义后缀都为 SeriesOption
   BarSeriesOption,
   PieChart,
   LineSeriesOption,
+  LineChart,
 } from "echarts/charts";
 import {
   TitleComponent,
@@ -32,13 +32,9 @@ import {
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import typeList from "@/constants/typeList";
-import { ECharts } from "echarts/core";
 import echarts from "echarts";
-import clone from "@/lib/clone";
 import dayjs from "dayjs";
-// import EChartOption = echarts.EChartOption;
-// import echarts from 'echarts';
-// 通过 ComposeOption 来组合出一个只有必须组件和图表的 Option 类型
+import _ from "lodash";
 type ECOption = echarts.ComposeOption<
   | BarSeriesOption
   | LineSeriesOption
@@ -55,6 +51,7 @@ echart.use([
   CanvasRenderer,
   PieChart,
   LegendComponent,
+  LineChart,
 ]);
 
 @Component({
@@ -66,14 +63,24 @@ export default class Report extends Vue {
   type = "-";
   typeList = typeList;
   recordList: RecordItem[] = [];
-  piedata: {
-    name: string;
-    value: number;
-  }[] = [];
   totalChart: any;
   dayChart: any;
+  groupList: GroupList = this.$store.state.groupList;
+  getMonthData() {
+    const groupList: GroupList = this.$store.state.groupList;
+    const today = new Date();
+    const array = [];
+    for (let i = 0; i <= 29; i++) {
+      const date = day(today).subtract(i, "day").format("YYYY-MM-DD");
+      const find = _.find(groupList, { title: date });
+      array.push({
+        date: date,
+        value: find ? find.total : 0,
+      });
+    }
+    return array;
+  }
   dayChartDraw() {
-    // echarts.dispose(this.$refs.main as HTMLDivElement);
     let exstance = this.$refs.main as HTMLDivElement;
     if (exstance) {
       if (this.dayChart) {
@@ -95,7 +102,7 @@ export default class Report extends Vue {
           animationType: "expansion",
           animationTypeUpdate: "expansion",
           animation: true,
-          data: this.piedata,
+          data: this.getDayData(),
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
@@ -115,53 +122,71 @@ export default class Report extends Vue {
       }
     }
     this.totalChart = echart.init(this.$refs.totalDigital as HTMLDivElement);
+    const array = this.getMonthData();
     this.totalChart.setOption({
-      title: { text: "所有数据", left: "center" },
-      xAxis: {
-        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
+      title: { text: "最近一个月", left: "2%" },
+      grid: {
+        left: "3%",
       },
-      yAxis: {},
+      xAxis: {
+        type: "category",
+        let: "0",
+        data: array.map((item) => item.date),
+        axisLabel: {
+          formatter: function (value: string, index: number) {
+            return value.substr(5);
+          },
+        },
+      },
+      yAxis: {
+        splitLine: {
+          show: false,
+        },
+      },
       series: [
         {
-          name: "销量",
-          type: "bar",
-          data: [5, 20, 36, 10, 10, 20],
+          data: array.map((item) => item.value),
+          type: "line",
         },
       ],
     });
   }
   @Watch("type")
   draw() {
-    this.filterdayData();
+    this.$store.commit("updateGroupList", this.type);
+    this.$store.commit("fetchGroupList");
     this.dayChartDraw();
     this.totalChartDraw();
   }
-
-  filterdayData() {
-    const list = clone(this.recordList).filter((r) => r.type === this.type);
-    const now = dayjs();
-    let data = [];
-    // todo
-    let tag = [];
-    let amount = [];
-    const dayList = list.filter(
-      (r) => dayjs(r.createAt).isSame(now, "day") === true
-    );
-    for (let i = 0; i < dayList.length; i++) {
-      tag.push(dayList[i].tag);
-      amount.push(dayList[i].amount);
-      data.push({ name: dayList[i].tag, value: dayList[i].amount });
+  getDayData() {
+    let itemList: RecordItem[] = this.$store.state.groupList[0].items;
+    if (itemList === []) {
+      return [{ name: "d", value: "df" }];
     }
-    this.piedata = data;
+    let data = [];
+    const x = itemList.map((r) => _.pick(r, ["tag", "amount"]));
+    for (let i = 0; i < x.length; i++) {
+      data.push({ name: x[i].tag, value: x[i].amount });
+    }
+    return data;
   }
   mounted() {
-    this.$store.commit("fetchRecords");
-    this.recordList = this.$store.state.recordList;
-    this.filterdayData();
-    this.draw();
+    this.$store.commit("updateGroupList", this.type);
+    this.$store.commit("fetchGroupList");
+    this.dayChartDraw();
+    this.totalChartDraw();
   }
 }
 </script>
 
 <style scoped lang="scss">
+.chart {
+  width: 300%;
+  &-wrapper {
+    overflow: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 </style>

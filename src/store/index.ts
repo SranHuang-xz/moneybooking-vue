@@ -1,6 +1,8 @@
+import clone from '@/lib/clone'
 import Clone from '@/lib/clone'
 import { createID } from '@/lib/createID'
 import router from '@/router'
+import dayjs from 'dayjs'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -41,6 +43,7 @@ const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
+    groupList: [],
     defaultTags: defaultTagList,
     currentTag: undefined,
     currentType: "-"
@@ -54,6 +57,8 @@ const store = new Vuex.Store({
       record2.createAt = record2.createAt || new Date().toISOString();
       state.recordList.push(record2)
       store.commit('saveRecords')
+      store.commit('saveGroupList')
+      store.commit('updateGroupList', record2)
     },
     saveRecords(state) {
       window.localStorage.setItem("recordList", JSON.stringify(state.recordList));
@@ -121,6 +126,50 @@ const store = new Vuex.Store({
           store.commit("saveTags")
         }
       }
+    },
+    fetchGroupList(state) {
+      state.groupList = JSON.parse(window.localStorage.getItem("groupList") || "[]")
+    },
+    saveGroupList(state) {
+      window.localStorage.setItem("groupList", JSON.stringify(state.groupList));
+    },
+    updateGroupList(state, type: string) {
+
+      const recordList = state.recordList;
+      if (recordList.length === 0) {
+        return [];
+      }
+      const newList = clone(recordList)
+        .filter((r) => r.type === type)
+        .sort(
+          (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
+        );
+      if (newList.length === 0) {
+        return [];
+      }
+      const groupList: GroupList = [
+        {
+          title: dayjs(newList[0].createAt).format("YYYY-MM-DD"),
+          items: [newList[0]],
+        },
+      ];
+      for (let i = 1; i < newList.length; i++) {
+        const current = newList[i];
+        const last = groupList[groupList.length - 1];
+        if (dayjs(last.title).isSame(dayjs(current.createAt), "day")) {
+          last.items.push(current);
+        } else {
+          groupList.push({
+            title: dayjs(current.createAt).format("YYYY-MM-DD"),
+            items: [current],
+          });
+        }
+      }
+      groupList.forEach((group) => {
+        group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+      });
+      state.groupList = groupList
+      store.commit("saveGroupList")
     }
   },
   actions: {
