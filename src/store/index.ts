@@ -3,6 +3,7 @@ import Clone from '@/lib/clone'
 import { createID } from '@/lib/createID'
 import router from '@/router'
 import dayjs from 'dayjs'
+import { update } from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -63,6 +64,15 @@ const store = new Vuex.Store({
     saveRecords(state) {
       window.localStorage.setItem("recordList", JSON.stringify(state.recordList));
     },
+    updateRecordList(state, object: { oldname: string, newname: string }) {
+      const { oldname, newname } = object
+      const x = state.recordList.map(r => {
+        r.tag = r.tag === oldname ? newname : r.tag
+      }
+      )
+      store.commit("saveRecords")
+
+    },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem("tagList") || "[]")
       if (!state.tagList || state.tagList.length === 0) {
@@ -122,6 +132,7 @@ const store = new Vuex.Store({
         }
         else {
           const tag = state.tagList.filter(tag => tag.id === id)[0]
+          store.commit("updateRecordList", { oldname: tag.name, newname: name })
           tag.name = name
           store.commit("saveTags")
         }
@@ -145,7 +156,9 @@ const store = new Vuex.Store({
           (a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()
         );
       if (newList.length === 0) {
-        return [];
+        state.groupList = []
+        store.commit("saveGroupList")
+        return;
       }
       const groupList: GroupList = [
         {

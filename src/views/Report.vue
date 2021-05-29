@@ -1,10 +1,15 @@
 <template>
   <Layout>
     <Tab :dataSource="typeList" :value.sync="type" />
-    <div class="main" ref="main" style="width: 100%; height: 300px"></div>
-    <div class="chart-wrapper">
-      <div class="chart" ref="totalDigital" style="height: 300px"></div>
-    </div>
+    <template v-if="error === true">
+      <div>当前没有数据!</div>
+    </template>
+    <template v-else>
+      <div class="main" ref="main" style="width: 100%; height: 300px"></div>
+      <div class="chart-wrapper">
+        <div class="chart" ref="totalDigital" style="height: 300px"></div>
+      </div>
+    </template>
   </Layout>
 </template>
 
@@ -33,7 +38,6 @@ import {
 import { CanvasRenderer } from "echarts/renderers";
 import typeList from "@/constants/typeList";
 import echarts from "echarts";
-import dayjs from "dayjs";
 import _ from "lodash";
 type ECOption = echarts.ComposeOption<
   | BarSeriesOption
@@ -65,9 +69,15 @@ export default class Report extends Vue {
   recordList: RecordItem[] = [];
   totalChart: any;
   dayChart: any;
+  error = false;
   groupList: GroupList = this.$store.state.groupList;
   getMonthData() {
     const groupList: GroupList = this.$store.state.groupList;
+    if (!groupList) {
+      this.error = true;
+      return [];
+    }
+    this.error = false;
     const today = new Date();
     const array = [];
     for (let i = 0; i <= 29; i++) {
@@ -88,31 +98,32 @@ export default class Report extends Vue {
       }
     }
     this.dayChart = echart.init(exstance);
-    this.dayChart.setOption({
-      title: {
-        text: "今日数据",
-        top: "5%",
-        left: "center",
-      },
-      series: [
-        {
-          type: "pie",
-          radius: "50%",
-          avoidLabelOverlap: false,
-          animationType: "expansion",
-          animationTypeUpdate: "expansion",
-          animation: true,
-          data: this.getDayData(),
-          emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
+    !this.error &&
+      this.dayChart.setOption({
+        title: {
+          text: "今日数据",
+          top: "5%",
+          left: "center",
+        },
+        series: [
+          {
+            type: "pie",
+            radius: "50%",
+            avoidLabelOverlap: false,
+            animationType: "expansion",
+            animationTypeUpdate: "expansion",
+            animation: true,
+            data: this.getDayData(),
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
             },
           },
-        },
-      ],
-    });
+        ],
+      });
   }
   totalChartDraw() {
     let exstance = this.$refs.totalDigital as HTMLDivElement;
@@ -123,33 +134,34 @@ export default class Report extends Vue {
     }
     this.totalChart = echart.init(this.$refs.totalDigital as HTMLDivElement);
     const array = this.getMonthData();
-    this.totalChart.setOption({
-      title: { text: "最近一个月", left: "2%" },
-      grid: {
-        left: "5%",
-      },
-      xAxis: {
-        type: "category",
-        let: "0",
-        data: array.map((item) => item.date),
-        axisLabel: {
-          formatter: function (value: string, index: number) {
-            return value.substr(5);
+    !this.error &&
+      this.totalChart.setOption({
+        title: { text: "最近一个月", left: "2%" },
+        grid: {
+          left: "5%",
+        },
+        xAxis: {
+          type: "category",
+          let: "0",
+          data: array.map((item) => item.date),
+          axisLabel: {
+            formatter: function (value: string, index: number) {
+              return value.substr(5);
+            },
           },
         },
-      },
-      yAxis: {
-        splitLine: {
-          show: false,
+        yAxis: {
+          splitLine: {
+            show: false,
+          },
         },
-      },
-      series: [
-        {
-          data: array.map((item) => item.value),
-          type: "line",
-        },
-      ],
-    });
+        series: [
+          {
+            data: array.map((item) => item.value),
+            type: "line",
+          },
+        ],
+      });
   }
   @Watch("type")
   draw() {
@@ -159,10 +171,17 @@ export default class Report extends Vue {
     this.totalChartDraw();
   }
   getDayData() {
-    let itemList: RecordItem[] = this.$store.state.groupList[0].items;
-    if (itemList === []) {
-      return [{ name: "d", value: "df" }];
+    let itemList: RecordItem[] = [];
+    const groupList = this.$store.state.groupList;
+    if (groupList[0]) {
+      itemList = groupList[0].items;
     }
+
+    if (this.$store.state.groupList === []) {
+      this.error = true;
+      return;
+    }
+    this.error = false;
     let data = [];
     const x = itemList.map((r) => _.pick(r, ["tag", "amount"]));
     for (let i = 0; i < x.length; i++) {
@@ -171,10 +190,7 @@ export default class Report extends Vue {
     return data;
   }
   mounted() {
-    this.$store.commit("updateGroupList", this.type);
-    this.$store.commit("fetchGroupList");
-    this.dayChartDraw();
-    this.totalChartDraw();
+    this.draw();
   }
 }
 </script>
