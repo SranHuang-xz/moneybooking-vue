@@ -126,7 +126,7 @@ export default class Report extends Vue {
     this.totalChart.setOption({
       title: { text: "最近一个月", left: "2%" },
       grid: {
-        left: "3%",
+        left: "5%",
       },
       xAxis: {
         type: "category",

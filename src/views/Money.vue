@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="money">
     <NumberSection :value.sync="record.amount" @submit="saveRecord" />
-    <div class="x">
+    <div class="wrapper">
       <FormItem
         fieldName="备注"
         placeholder="写点什么吧"
@@ -99,25 +99,9 @@ export default class Money extends Vue {
   width: auto;
   /* height: 33px; */
 }
-.x {
-  /* border: 1px blue solid; */
+.wrapper {
   display: flex;
   padding: 4px;
   align-items: center;
-  /* background: #000; */
 }
-/* .date {
-  border: 1px red solid;
-  display: flex;
-  align-items: center; */
-/* padding: 4px 16px; */
-
-/* > input { */
-/* height: 48px; */
-/* border: none; */
-/* padding: 2px 2px; */
-/* margin-bottom: 2px; */
-/* font-size: 16px;
-  }
-} */
 </style>

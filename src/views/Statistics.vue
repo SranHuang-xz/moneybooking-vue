@@ -10,8 +10,13 @@
                 {{ beautify(group.title) }}<span>{{ group.total }}</span>
               </h3>
               <li v-for="item in group.items" :key="item.id" class="record">
-                <span> {{ item.tag }}</span>
-                <span>￥{{ item.amount }}</span>
+                <div class="x">
+                  <div>{{ item.tag }}</div>
+                  <div class="notespan">{{ item.note }}</div>
+                </div>
+                <div>
+                  <div>￥{{ item.amount }}</div>
+                </div>
               </li>
             </ol>
           </li>
@@ -28,7 +33,6 @@ import Tab from "@/components/Tab.vue";
 import Vue from "vue";
 import typeList from "@/constants/typeList";
 import { Component } from "vue-property-decorator";
-import clone from "@/lib/clone";
 @Component({
   components: {
     Tab,
@@ -77,7 +81,6 @@ export default class Statistics extends Vue {
 }
 .title {
   @extend %item;
-  /* background: white; */
 }
 .record {
   background: white;
@@ -86,5 +89,17 @@ export default class Statistics extends Vue {
 .nodata {
   padding: 40px;
   text-align: center;
+}
+.notespan {
+  max-width: 240px;
+  margin-left: 10px;
+  color: gray;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  display: flex;
 }
 </style>

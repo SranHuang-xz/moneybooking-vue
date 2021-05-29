@@ -79,17 +79,14 @@ export default class EditLabel extends Vue {
   margin-top: 44px -16px;
 }
 ::v-deep .labelform {
-  display: flex;
-  align-items: center;
   background: white;
-  padding: 4px 16px;
+  margin: 28px 0;
   > span {
     margin: 0 16px;
     white-space: nowrap;
+    padding: 12px 0px;
   }
   > input {
-    height: 48px;
-    border: none;
     padding: 2px 2px;
     margin-bottom: 2px;
     font-size: 16px;

@@ -7,7 +7,7 @@
       <Icon name="money" />记账
     </router-link>
     <router-link to="/statistics" class="item" active-class="selected">
-      <Icon name="chart" />明细
+      <Icon name="detail" />明细
     </router-link>
     <router-link to="/report" class="item" active-class="selected">
       <Icon name="chart" />报表
