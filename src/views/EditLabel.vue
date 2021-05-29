@@ -81,6 +81,8 @@ export default class EditLabel extends Vue {
 ::v-deep .labelform {
   display: flex;
   align-items: center;
+  background: white;
+  padding: 4px 16px;
   > span {
     margin: 0 16px;
     white-space: nowrap;

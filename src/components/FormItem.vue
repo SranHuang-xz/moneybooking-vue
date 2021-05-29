@@ -1,5 +1,5 @@
 <template>
-  <div class="`note`">
+  <div class="note">
     <label :class="classPrefix">
       <template v-if="type === 'date'">
         <span>{{ this.fieldName }}</span>
@@ -49,11 +49,11 @@ export default class FormItem extends Vue {
 <style lang="scss" scoped>
 .note {
   background: rgb(244, 246, 245);
-  padding: 0 16px;
   font-size: 14px;
   > label {
     display: flex;
     align-items: center;
+    padding: 0 16px;
     > span {
       margin-right: 16px;
       white-space: nowrap;
@@ -61,7 +61,7 @@ export default class FormItem extends Vue {
     > input {
       display: block;
       width: 100%;
-      height: 48px;
+      height: 32px;
       background: none;
       border: none;
     }
