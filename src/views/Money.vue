@@ -2,6 +2,13 @@
   <Layout class-prefix="money">
     <NumberSection :value.sync="record.amount" @submit="saveRecord" />
     <FormItem
+      fieldName="日期"
+      placeholder="写点什么吧"
+      type="date"
+      :value.sync="record.createAt"
+      class="note"
+    />
+    <FormItem
       fieldName="备注"
       placeholder="写点什么吧"
       :value.sync="record.note"
@@ -45,6 +52,7 @@ export default class Money extends Vue {
     note: "",
     type: "-",
     amount: 0,
+    createAt: new Date().toISOString(),
   };
   typeList = typeList;
   get recordList() {

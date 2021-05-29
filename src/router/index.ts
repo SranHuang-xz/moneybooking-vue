@@ -7,6 +7,7 @@ import Statistics from '../views/Statistics.vue'
 import NotFound from '../views/NotFound.vue'
 import EditLabel from '../views/EditLabel.vue'
 import AddLabel from '../views/AddLabel.vue'
+import Report from '../views/Report.vue'
 Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
@@ -38,6 +39,11 @@ const routes: Array<RouteConfig> = [
     path: '/labels/add',
     name: 'addLabels',
     component: AddLabel
+  },
+  {
+    path: '/report',
+    name: 'report',
+    component: Report
   },
   {
     path: '*',

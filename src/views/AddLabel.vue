@@ -48,8 +48,6 @@ export default class AddLabel extends Vue {
     this.y = [];
     const defaultTags: tag[] = this.$store.state.defaultTags;
     const tagList: tag[] = this.$store.state.tagList;
-    console.log(defaultTags);
-    console.log(tagList);
     for (let i = 0; i < defaultTags.length; i++) {
       for (let j = 0; j < tagList.length; j++) {
         if (defaultTags[i].name === tagList[j].name) {
